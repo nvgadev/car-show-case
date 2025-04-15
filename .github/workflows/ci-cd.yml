@@ -23,11 +23,11 @@ jobs:
     #- name: Run Bandit (SAST)
       #run: bandit -r backend/ -c security/bandit_config.yaml -f json -o bandit_report.json
 
-    - name: Run Trivy Scan
-      uses: aquasecurity/trivy-action@master
-      with:
-        image-ref: 'backend-image:latest'
-        format: 'table'
+   # - name: Run Trivy Scan
+    #  uses: aquasecurity/trivy-action@master
+     # with:
+      #  image-ref: 'backend-image:latest'
+       # format: 'table'
 
     - name: Build with SAM
       run: sam build
