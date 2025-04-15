@@ -1,0 +1,4 @@
+scan_rules:
+  - activeScan
+  - passiveScan
+alert_threshold: Medium
