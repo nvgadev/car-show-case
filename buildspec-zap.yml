@@ -1,0 +1,20 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      java: corretto11
+    commands:
+      - echo Installing ZAP
+      - apt-get update && apt-get install -y wget
+      - wget https://github.com/zaproxy/zaproxy/releases/download/v2.14.0/ZAP_2_14_0_unix.sh
+      - chmod +x ZAP_2_14_0_unix.sh && ./ZAP_2_14_0_unix.sh -q -dir zap
+
+  build:
+    commands:
+      - echo Running OWASP ZAP Baseline Scan
+      - ./zap/zap.sh -cmd -quickurl http://your-api-endpoint-url/api/cars -quickout zap_report.html -quickprogress
+
+artifacts:
+  files:
+    - zap_report.html

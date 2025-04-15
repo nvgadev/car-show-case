@@ -1,0 +1,38 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.9
+      docker: 20
+    commands:
+      - echo Installing dependencies...
+      - pip install --upgrade pip
+      - pip install bandit aws-sam-cli
+
+  pre_build:
+    commands:
+      - echo "Running Bandit (SAST)..."
+      - bandit -r backend/ -f json -o bandit_report.json || true
+
+      - echo "Running Trivy (SCA)..."
+      - curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh
+      - ./trivy fs . --exit-code 0 --severity HIGH,CRITICAL --format json --output trivy_report.json || true
+
+  build:
+    commands:
+      - echo Build started on `date`
+      - sam build
+
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Running SAM Package
+      - sam package --output-template-file packaged.yaml --s3-bucket YOUR_ARTIFACT_BUCKET
+
+artifacts:
+  files:
+    - packaged.yaml
+    - bandit_report.json
+    - trivy_report.json
+  discard-paths: yes

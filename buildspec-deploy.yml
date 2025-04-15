@@ -1,0 +1,20 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.9
+    commands:
+      - pip install aws-sam-cli
+
+  build:
+    commands:
+      - echo Deploying with AWS SAM
+      - sam deploy --template-file packaged.yaml --stack-name car-tech-showcase \
+          --capabilities CAPABILITY_IAM \
+          --region us-east-1 \
+          --no-fail-on-empty-changeset
+
+artifacts:
+  files:
+    - sam-deploy.log
