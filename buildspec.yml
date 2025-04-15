@@ -4,7 +4,7 @@ phases:
   install:
     runtime-versions:
       python: 3.9
-      docker: 20
+      #docker: 20
     commands:
       - echo Installing dependencies...
       - pip install --upgrade pip
@@ -12,6 +12,10 @@ phases:
 
   pre_build:
     commands:
+      - echo "Logging in to Amazon ECR (if needed for Docker push)..."
+      - echo "Setting up pre-build steps"
+      - docker --version
+      
       - echo "Running Bandit (SAST)..."
       - bandit -r backend/ -f json -o bandit_report.json || true
 
