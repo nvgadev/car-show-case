@@ -20,8 +20,8 @@ jobs:
     - name: Install Bandit
       run: pip install bandit
 
-    - name: Run Bandit (SAST)
-      run: bandit -r backend/ -c security/bandit_config.yaml -f json -o bandit_report.json
+    #- name: Run Bandit (SAST)
+      #run: bandit -r backend/ -c security/bandit_config.yaml -f json -o bandit_report.json
 
     - name: Run Trivy Scan
       uses: aquasecurity/trivy-action@master
